@@ -1,0 +1,57 @@
+{% extends 'wishlist/base.html' %}
+{% block title %}{{ wishlist.title }}{% endblock %}
+{% block content %}
+    <form method="post" style="margin-bottom: 4px;">
+        {% csrf_token %}
+        <input type="hidden" name="update_title" value="1">
+        <div style="display:flex; gap:8px;">
+            <input type="text" name="title" value="{{ wishlist.title }}" placeholder="Wishlist title">
+            <button type="submit">Save title</button>
+        </div>
+    </form>
+
+    <div class="share-box">
+        Share this link so others can view your wishlist:<br>
+        <input type="text" id="share-link" value="{{ share_url }}" readonly onclick="this.select();">
+        <button id="copy-link-btn">Copy</button>
+    </div>
+
+    <h2>Add an item</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ item_form.text }}
+        {{ item_form.url }}
+        <button type="submit">Add to wishlist</button>
+    </form>
+
+    <h2>Your items</h2>
+    {% if items %}
+        {% for item in items %}
+            <div class="item">
+                <div>
+                    {{ item.text }}
+                    {% if item.url %}
+                        &mdash; <a href="{{ item.url }}" target="_blank" rel="noopener">link</a>
+                    {% endif %}
+                </div>
+                <form method="post" action="{% url 'delete_item' item.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No items yet. Add your first wish above!</p>
+    {% endif %}
+
+    <script>
+        $('#copy-link-btn').on('click', function () {
+            var $input = $('#share-link');
+            $input.select();
+            navigator.clipboard.writeText($input.val()).then(function () {
+                $('#copy-link-btn').text('Copied!');
+                setTimeout(function () { $('#copy-link-btn').text('Copy'); }, 1500);
+            });
+        });
+    </script>
+{% endblock %}

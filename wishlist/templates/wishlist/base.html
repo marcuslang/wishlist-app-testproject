@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Wishlist{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #222; }
+        h1 { margin-bottom: 0.2em; }
+        a { color: #2563eb; }
+        input[type=text], input[type=url], input[type=password] {
+            padding: 8px; width: 100%; box-sizing: border-box; margin-bottom: 8px;
+        }
+        button { padding: 8px 16px; cursor: pointer; }
+        .item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; }
+        .item form { display: inline; }
+        .share-box { background: #f3f4f6; padding: 12px; border-radius: 6px; margin: 16px 0; }
+        .top-nav { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .errorlist { color: #b91c1c; }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <div><a href="{% url 'my_wishlist' %}">Wishlist App</a></div>
+        <div>
+            {% if user.is_authenticated %}
+                Hi, {{ user.username }} &middot;
+                <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> &middot; <a href="{% url 'signup' %}">Sign up</a>
+            {% endif %}
+        </div>
+    </div>
+    {% block content %}{% endblock %}
+</body>
+</html>

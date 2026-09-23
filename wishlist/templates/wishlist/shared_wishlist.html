@@ -1,0 +1,21 @@
+{% extends 'wishlist/base.html' %}
+{% block title %}{{ wishlist.title }}{% endblock %}
+{% block content %}
+    <h1>{{ wishlist.title }}</h1>
+    <p>Shared by {{ wishlist.user.username }}</p>
+
+    {% if items %}
+        {% for item in items %}
+            <div class="item">
+                <div>
+                    {{ item.text }}
+                    {% if item.url %}
+                        &mdash; <a href="{{ item.url }}" target="_blank" rel="noopener">link</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>This wishlist is empty.</p>
+    {% endif %}
+{% endblock %}
