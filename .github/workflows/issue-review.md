@@ -38,7 +38,7 @@ Review issue #${{ github.event.issue.number }} against the actual code in this r
 
 **Language:** Write all output (comments, questions) in the language of the ticket, not the language of these instructions.
 
-**Context:** Read the full issue body AND the complete comment history, including your own previous comments. Answers to your questions usually arrive as comments.
+**Context:** Read the full issue body AND the complete comment history, including your own previous comments. Answers to your questions usually arrive as comments, but they can also arrive as edits to the issue body itself — always diff the current body against what your last comment listed as open/unresolved.
 
 ## Analysis
 
@@ -64,4 +64,6 @@ Questions must be specific to what you found in the code, never generic.
 
 ## No action
 
-If nothing changed since your last review (e.g. only a typo edit), call `noop` with a short reason instead of posting a new comment.
+Before calling `noop`, explicitly re-check every open question from your last comment against the CURRENT issue body and CURRENT comments. If any open question is now answered, contradicted, or narrowed — anywhere in the body or comments, not just in new comments — that is a substantive change: post an updated comment marking it resolved, even if no other content changed.
+
+Only call `noop` if no open question was touched and nothing else meaningful changed (e.g. only a typo, formatting, or whitespace edit).
