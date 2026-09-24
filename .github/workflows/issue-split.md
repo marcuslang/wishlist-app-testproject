@@ -6,12 +6,6 @@ on:
 
 engine: copilot
 
-strict: false
-sandbox:
-  agent: false
-features:
-  dangerously-disable-sandbox-agent: true
-
 permissions:
   issues: read
   contents: read
